@@ -12,6 +12,7 @@ import popov.product.service.BrandService;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -41,6 +42,12 @@ public class BrandResource {
             throw new RuntimeException("not found"); //todo return 404
         }
         return new ResponseEntity<BrandDto>(brandDto, HttpStatus.OK);
+    }
+
+    @GetMapping("/brands")
+    public ResponseEntity<List<BrandDto>> getAll() {
+        List<BrandDto> brandDtos = brandService.findAll();
+        return new ResponseEntity<>(brandDtos, HttpStatus.OK);
     }
 
 }

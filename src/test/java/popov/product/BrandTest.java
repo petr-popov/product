@@ -19,6 +19,7 @@ import popov.product.repository.BrandRepository;
 import popov.product.resource.BrandResource;
 import popov.product.service.BrandService;
 
+import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -61,6 +62,15 @@ public class BrandTest {
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.id").value(created.getId()))
 				.andExpect(jsonPath("$.name").value(created.getName()));
+	}
+
+	@Test
+	public void findAllTest() throws Exception {
+		BrandDto created = createBrand();
+		mockMvc.perform(get("/api/v1/brands"))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.[*].id").value(hasItem(created.getId().intValue())))
+				.andExpect(jsonPath("$.[*].name").value(hasItem(created.getName())));
 	}
 
 	private BrandDto createBrand() throws Exception {

@@ -5,10 +5,18 @@ import {Router} from "@angular/router";
 @Component({
   selector: 'app-root',
   template: `
-    <nav  *ngIf="authService.isLoggedIn">
-      <a routerLink="/brand" routerLinkActive="active">Brands</a>
-      <a routerLink="/product" routerLinkActive="active">Products</a>
-      <a routerLink="/login" routerLinkActive="active">Login</a>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" *ngIf="authService.isLoggedIn">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/brand" routerLinkActive="active">Brands</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/product" routerLinkActive="active">Products</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/login" routerLinkActive="active">Login</a>
+        </li>
+      </ul>
     </nav>
     
     <router-outlet></router-outlet>
