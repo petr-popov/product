@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Observable, of } from 'rxjs';
-import { tap, delay } from 'rxjs/operators';
+import {AuthServerProvider} from "./auth-jwt.service";
 
 @Injectable()
 export class AuthService {
@@ -10,14 +9,32 @@ export class AuthService {
   // store the URL so we can redirect after logging in
   redirectUrl: string;
 
-  login(): Observable<boolean> {
-    return of(true).pipe(
-      delay(1000),
-      tap(val => this.isLoggedIn = true)
-    );
+  constructor(
+    private authServerProvider: AuthServerProvider
+  ) {}
+
+  login(credentials, callback?) {
+    const cb = callback || function() {};
+
+    return new Promise((resolve, reject) => {
+      this.authServerProvider.login(credentials).subscribe((data) => {
+        resolve(data);
+        this.isLoggedIn = true;
+        return cb();
+      }, (err) => {
+        this.logout();
+        reject(err);
+        return cb(err);
+      });
+    });
   }
 
-  logout(): void {
+  hasAuthority(authority) {
+    return this.authServerProvider.hasAuthority(authority);
+  }
+
+  logout() {
+    this.authServerProvider.logout().subscribe();
     this.isLoggedIn = false;
   }
 }

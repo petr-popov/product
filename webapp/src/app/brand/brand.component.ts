@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import {Brand} from "./brand.model";
 import {BrandService} from "./brand.service";
 import {ResponseWrapper} from "../response-wrapper.model";
+import {AuthService} from "../auth/auth.service";
 
 @Component({
   template:  `
     <div>
-      <h2>
+      <h2 *ngIf="authService.hasAuthority('ROLE_ADMIN')"> <!--todo replace ngif with directive-->
         <!--todo replace createFormVisible with angular router-->
         <button
           type="button" class="btn btn-primary"
@@ -40,7 +41,7 @@ import {ResponseWrapper} from "../response-wrapper.model";
             <td>{{brand.id}}</td>
             <td>{{brand.name}}</td>
             <td class="text-right">
-              <div class="btn-group flex-btn-group-container">
+              <div *ngIf="authService.hasAuthority('ROLE_ADMIN')" class="btn-group flex-btn-group-container">
                 <button type="submit"
                         replaceUrl="true"
                         class="btn btn-danger btn-sm">
@@ -63,6 +64,7 @@ export class BrandComponent {
 
   constructor(
     private brandService: BrandService,
+    public authService: AuthService,
   ) {
   }
 

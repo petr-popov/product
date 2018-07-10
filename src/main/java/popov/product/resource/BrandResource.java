@@ -4,9 +4,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import popov.product.dto.BrandCreationRequest;
 import popov.product.dto.BrandDto;
+import popov.product.security.AuthoritiesConstants;
 import popov.product.service.BrandService;
 
 import javax.validation.Valid;
@@ -29,6 +31,7 @@ public class BrandResource {
     }
 
     @PostMapping("/brands")
+    @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<BrandDto> createBrand(@Valid @RequestBody BrandCreationRequest brandRequest) throws URISyntaxException {
         BrandDto result = brandService.save(brandRequest);
         return ResponseEntity.created(new URI("/api/v1/brands/" + result.getId()))

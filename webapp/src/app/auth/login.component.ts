@@ -35,6 +35,8 @@ import { AuthService }      from './auth.service';
 })
 export class LoginComponent {
   message: string;
+  username: string;
+  password: string;
 
   constructor(public authService: AuthService, public router: Router) {
     this.setMessage();
@@ -47,8 +49,10 @@ export class LoginComponent {
   login() {
     this.message = 'Trying to log in ...';
 
-    this.authService.login().subscribe(() => {
-      this.setMessage();
+    this.authService.login({
+      username: this.username,
+      password: this.password,
+    }).then(() => {
       if (this.authService.isLoggedIn) {
         // Get the redirect URL from our auth service
         // If no redirect has been set, use the default
@@ -64,6 +68,8 @@ export class LoginComponent {
         // Redirect the user
         this.router.navigate([redirect], navigationExtras);
       }
+    }).catch(() => {
+      this.message = "Authentication failure";
     });
   }
 

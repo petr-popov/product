@@ -14,6 +14,8 @@ import { PageNotFoundComponent }   from './not-found.component';
 
 import {BrandModule} from "./brand/brand.module";
 import {ProductModule} from "./product/product.module";
+import {HTTP_INTERCEPTORS} from "@angular/common/http";
+import {AuthInterceptor} from "./auth/auth.interceptor";
 
 @NgModule({
   imports: [

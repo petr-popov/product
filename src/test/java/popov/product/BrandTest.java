@@ -56,7 +56,7 @@ public class BrandTest {
 	}
 
 	@Test
-	public void brandGetByIdTest() throws Exception {
+	public void testGetById() throws Exception {
 		BrandDto created = createBrand();
 		mockMvc.perform(get("/api/v1/brands/{0}", created.getId()))
 				.andExpect(status().isOk())
@@ -65,7 +65,7 @@ public class BrandTest {
 	}
 
 	@Test
-	public void findAllTest() throws Exception {
+	public void testFindAll() throws Exception {
 		BrandDto created = createBrand();
 		mockMvc.perform(get("/api/v1/brands"))
 				.andExpect(status().isOk())
